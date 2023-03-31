@@ -23,7 +23,7 @@ COPY ./requirements.txt /var/www/requirements.txt
 RUN pip install -r /var/www/requirements.txt
 
 # Set the database URL environment variable
-ENV DATABASE_URL postgres://user:password@postgres/db_name
+#ENV DATABASE_URL postgresql://postgres:postgres@localhost:5432/flask_db
 
 # Expose the port that the application will listen on
 EXPOSE 80
