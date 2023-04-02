@@ -21,6 +21,7 @@ def get_db_connection():
 
 @app.route('/institutions', methods=['GET', 'POST'])
 def institutions():
+    """Get all institutions or create a new one"""
     if request.method == 'GET':
         institutions = Institution.query.all()
         projects = Project.query.all()
@@ -55,7 +56,8 @@ def institutions():
 
 
 @app.route('/institutions/<int:id>', methods=['GET', 'PUT', 'DELETE'])
-def institution(id):
+def institution(id: int) -> json_response:
+    """Get, update or delete an institution"""
     institution = Institution.query.get(id)
     projects = Project.query.filter_by(institution_id=id).all()
 
@@ -103,7 +105,8 @@ def institution(id):
             return json_response(description='Institution not found')
 
 @app.route('/users', methods=['GET', 'POST'])
-def users():
+def users() -> json_response:
+    """Get all users or create a new one"""
     if request.method == 'GET':
         users = CustomUser.query.all()
 
@@ -139,8 +142,9 @@ def users():
         }
 
         return jsonify(user_dict)
-@app.route('/users/<int:rut>', methods=['GET', 'PUT', 'DELETE'])
-def user(rut):
+@app.route('/users/<string:rut>', methods=['GET', 'PUT', 'DELETE'])
+def user(rut: str) -> json_response:
+    """Get, update or delete an user"""
     user = CustomUser.query.filter_by(rut=str(rut)).first()
     projects = Project.query.filter_by(responsible=user.id).all()
 
@@ -162,7 +166,8 @@ def user(rut):
 
 
 @app.route('/projects', methods=['GET', 'POST'])
-def projects():
+def projects() -> json_response:
+    """Get all projects or create a new one"""
     if request.method == 'GET':
         projects = Project.query.all()
 
@@ -200,7 +205,8 @@ def projects():
         return jsonify(project_dict)
 
 @app.route('/projects/days_left', methods=['GET'])
-def project_days_left():
+def project_days_left() -> json_response:
+    """Get all projects with days left to finish"""
     projects = Project.query.all()
     now = datetime.now()
     return jsonify(list({'project_name': project.name,
@@ -210,7 +216,8 @@ def project_days_left():
 
 
 @app.route('/institutions/address', methods=['GET'])
-def get_google_maps_url():
+def get_google_maps_url() -> json_response:
+    """Get all institutions with google maps url"""
     institutions = Institution.query.all()
     return jsonify([{'institution_name': str(institution.name), 'address': f'https://www.google.com/maps/search/?api=1&query={institution.address.replace(" ", "+")}'}
                     for institution in institutions])
