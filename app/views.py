@@ -157,7 +157,7 @@ def institution(id):
             return json_response(description='Institution not found')
 
 @app.route('/users', methods=['GET', 'POST'])
-def user():
+def users():
     if request.method == 'GET':
         users = CustomUser.query.all()
         users_list = []
@@ -198,9 +198,30 @@ def user():
         }
 
         return jsonify(user_dict)
+@app.route('/users/<int:rut>', methods=['GET', 'PUT', 'DELETE'])
+def user(rut):
+    user = CustomUser.query.filter_by(rut=str(rut)).first()
+    projects = Project.query.filter_by(responsible=user.id).all()
+
+    if request.method == 'GET':
+        if user:
+            return json_response(user={
+                'id': user.id,
+                'first_name': user.first_name,
+                'lastnames': user.lastnames,
+                'rut': user.rut,
+                'birth_date': user.birth_date,
+                'position': user.position,
+                'age': user.age,
+                'projects': [{'project_name':project.name} for project in projects]
+
+            })
+        else:
+            return json_response(description='User not found')
+
 
 @app.route('/projects', methods=['GET', 'POST'])
-def project():
+def projects():
     if request.method == 'GET':
         projects = Project.query.all()
         projects_list = []
