@@ -10,13 +10,14 @@ conn = psycopg2.connect(
 cur = conn.cursor()
 
 # Execute a command: this creates a new table
-cur.execute('DROP TABLE IF EXISTS institution;')
-cur.execute('DROP TABLE IF EXISTS project;')
-cur.execute('DROP TABLE IF EXISTS custom_user;')
+cur.execute('DROP TABLE IF EXISTS institution CASCADE;')
+cur.execute('DROP TABLE IF EXISTS project CASCADE;')
+cur.execute('DROP TABLE IF EXISTS custom_user CASCADE;')
 
 cur.execute('CREATE TABLE institution (id serial PRIMARY KEY,'
                                      'name varchar (150) NOT NULL,'
                                      'description varchar (150) NOT NULL,'
+                                     'address varchar (150) NOT NULL,'
                                      'creation_date date DEFAULT CURRENT_TIMESTAMP);'
                                      )
 
