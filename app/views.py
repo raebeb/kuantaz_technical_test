@@ -1,62 +1,13 @@
 from app import app
 
+from flask import request
+from datetime import datetime, time
+
+from flask_json import jsonify, json_response
+
+from .models import Institution, CustomUser, Project, db
+
 import psycopg2
-from flask import Flask, render_template, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
-
-from flask_json import FlaskJSON, jsonify,  JsonError, json_response
-
-
-
-import os
-import psycopg2
-from flask import Flask, render_template
-
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@172.17.0.2/flask_db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
-
-
-#Models
-#TODO: move this to a models.py file
-class Institution(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    description = db.Column(db.String(200))
-    address = db.Column(db.String(200))
-    creation_date = db.Column(db.DateTime, default=datetime.utcnow)
-
-    def __repr__(self):
-        return f"Institution(id={self.id}, name='{self.name}', description='{self.description}', creation_date='{self.creation_date}')"
-
-class CustomUser(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(50), nullable=False)
-    lastnames = db.Column(db.String(200))
-    rut = db.Column(db.String(200))
-    birth_date = db.Column(db.DateTime)
-    position = db.Column(db.String(200))
-    age = db.Column(db.Integer)
-
-    def get_full_name(self):
-        return f"{self.first_name} {self.lastnames}"
-
-    def __repr__(self):
-        return f"CustomUser(id={self.id}, first_name='{self.first_name}', lastnames='{self.lastnames}', rut='{self.rut}', birth_date='{self.birth_date}', position='{self.position}', age='{self.age}')"
-
-class Project(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    description = db.Column(db.String(200))
-    start_date = db.Column(db.DateTime)
-    end_date = db.Column(db.DateTime)
-    responsible = db.Column(db.Integer, db.ForeignKey('custom_user.id'))
-    institution_id = db.Column(db.Integer, db.ForeignKey('institution.id'))
-
-    def __repr__(self):
-        return f"Project(id={self.id}, name='{self.name}', description='{self.description}', start_date='{self.start_date}', end_date='{self.end_date}', responsible='{self.responsible}', institution_id='{self.institution_id}')"
 
 
 def get_db_connection():
@@ -73,21 +24,16 @@ def institutions():
     if request.method == 'GET':
         institutions = Institution.query.all()
         projects = Project.query.all()
-        institutions_list = []
 
-        for institution in institutions:
-            institution_dict = {
-                'id': institution.id,
-                'name': institution.name,
-                'description': institution.description,
-                'creation_date': institution.creation_date,
-                'projects': [{'project_name': project.name,
-                'responsible': CustomUser.query.filter_by(id=project.responsible).first().get_full_name()}
-                for project in projects]
-            }
-            institutions_list.append(institution_dict)
-
-        return jsonify(institutions_list)
+        return jsonify([{
+            'id': institution.id,
+            'name': institution.name,
+            'description': institution.description,
+            'creation_date': institution.creation_date,
+            'projects': [{'project_name': project.name,
+                          'responsible': CustomUser.query.filter_by(id=project.responsible).first().get_full_name()}
+                         for project in projects]
+        } for institution in institutions ])
 
     elif request.method == 'POST':
         name = request.form['name']
@@ -160,21 +106,16 @@ def institution(id):
 def users():
     if request.method == 'GET':
         users = CustomUser.query.all()
-        users_list = []
 
-        for user in users:
-            user_dict = {
-                'id': user.id,
-                'first_name': user.first_name,
-                'lastnames': user.lastnames,
-                'rut': user.rut,
-                'birth_date': user.birth_date,
-                'position': user.position,
-                'age': user.age
-            }
-            users_list.append(user_dict)
-
-        return jsonify(users_list)
+        return jsonify([{
+            'id': user.id,
+            'first_name': user.first_name,
+            'lastnames': user.lastnames,
+            'rut': user.rut,
+            'birth_date': user.birth_date,
+            'position': user.position,
+            'age': user.age
+        } for user in users])
 
     elif request.method == 'POST':
         first_name = request.form['first_name']
@@ -224,21 +165,17 @@ def user(rut):
 def projects():
     if request.method == 'GET':
         projects = Project.query.all()
-        projects_list = []
 
-        for project in projects:
-            project_dict = {
-                'id': project.id,
-                'name': project.name,
-                'description': project.description,
-                'start_date': project.start_date,
-                'end_date': project.end_date,
-                'responsible': project.responsible,
-                'institution_id': project.institution_id
-            }
-            projects_list.append(project_dict)
+        return jsonify([{
+            'id': project.id,
+            'name': project.name,
+            'description': project.description,
+            'start_date': project.start_date,
+            'end_date': project.end_date,
+            'responsible': project.responsible,
+            'institution_id': project.institution_id
+        }for project in projects])
 
-        return jsonify(projects_list)
     elif request.method == 'POST':
         name = request.form['name']
         description = request.form['description']
@@ -261,3 +198,20 @@ def projects():
         }
 
         return jsonify(project_dict)
+
+@app.route('/projects/days_left', methods=['GET'])
+def project_days_left():
+    projects = Project.query.all()
+    now = datetime.now()
+    return jsonify(list({'project_name': project.name,
+                         'days_left': str(datetime.combine(project.end_date, time.max) - now) if datetime.combine(project.end_date, time.max) > now else 'finished project'}
+                        for project in projects))
+
+
+
+@app.route('/institutions/address', methods=['GET'])
+def get_google_maps_url():
+    institutions = Institution.query.all()
+    return jsonify([{'institution_name': str(institution.name), 'address': f'https://www.google.com/maps/search/?api=1&query={institution.address.replace(" ", "+")}'}
+                    for institution in institutions])
+
