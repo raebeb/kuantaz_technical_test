@@ -40,6 +40,9 @@ class CustomUser(db.Model):
     position = db.Column(db.String(200))
     age = db.Column(db.Integer)
 
+    def get_full_name(self):
+        return f"{self.first_name} {self.lastnames}"
+
     def __repr__(self):
         return f"CustomUser(id={self.id}, first_name='{self.first_name}', lastnames='{self.lastnames}', rut='{self.rut}', birth_date='{self.birth_date}', position='{self.position}', age='{self.age}')"
 
@@ -69,6 +72,7 @@ def get_db_connection():
 def institutions():
     if request.method == 'GET':
         institutions = Institution.query.all()
+        projects = Project.query.all()
         institutions_list = []
 
         for institution in institutions:
@@ -76,7 +80,10 @@ def institutions():
                 'id': institution.id,
                 'name': institution.name,
                 'description': institution.description,
-                'creation_date': institution.creation_date
+                'creation_date': institution.creation_date,
+                'projects': [{'project_name': project.name,
+                'responsible': CustomUser.query.filter_by(id=project.responsible).first().get_full_name()}
+                for project in projects]
             }
             institutions_list.append(institution_dict)
 
@@ -104,6 +111,8 @@ def institutions():
 @app.route('/institutions/<int:id>', methods=['GET', 'PUT', 'DELETE'])
 def institution(id):
     institution = Institution.query.get(id)
+    projects = Project.query.filter_by(institution_id=id).all()
+
     print(f'INSTITUTION->{institution}')
 
     if request.method == 'GET':
@@ -112,6 +121,8 @@ def institution(id):
                 'id': institution.id,
                 'name': institution.name,
                 'description': institution.description,
+                'projects': [{'project_name':project.name, 'responsible': CustomUser.query.filter_by(id=project.responsible).first().get_full_name() } for project in projects]
+
             })
         else:
             return json_response(description='Institution not found')
