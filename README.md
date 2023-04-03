@@ -35,7 +35,7 @@ sudo bash start.sh
 ```
 > Si es primera vez que se levanta el proyecto, este se _buildeara_ e instalara todas las dependencias necesarias
 
-Luego de ejecutar el comando de arriba en nuestra terminal apareceral algo como esto
+Luego de ejecutar el comando de arriba en nuestra terminal aparecerá algo como esto
 
 ```
 [+] Building 1.6s (11/11) FINISHED
@@ -61,7 +61,7 @@ da381833568a2b2cecee900461b02dbc0c4258e86f6868fe707cc62bcf491c53
 25ef376d757c2825891128d60fb2e2f200c19916b25bc91a3875ebb5ffa1fa44
 ```
 
-Si es primera vez que se levanatan los contenedores es posible que ```mydockerapp``` falle, para correjir esto es necesario ejeutar ``` sudo docker stop mydockerapp && sudo docker start mydockerapp ``` esto reiniciara el contenedor
+Si es primera vez que se levantan los contenedores es posible que ```mydockerapp``` falle, para corregir esto es necesario ejecutar ``` sudo docker stop mydockerapp && sudo docker start mydockerapp ``` esto reiniciara el contenedor
 > Para detener completamente los contenedores es necesario ejecutar lo siguiente en nuestra terminal
 > ``` sudo docker stop mydockerapp && sudo docker stop flask_db && sudo docker stop flask_test_db ```
 
@@ -69,11 +69,11 @@ Si es primera vez que se levanatan los contenedores es posible que ```mydockerap
 
 ### 3. Casos de prueba
 
-En la raíz del proyecto se encuentra el archivo ```Kuantas Technical Test API.postman_collection.json``` el cual puede ser exportado a postman y tiene preparada las llamadas a todos los endpoints desarrol
+En la raíz del proyecto se encuentra el archivo ```Kuantas Technical Test API.postman_collection.json``` el cual puede ser exportado a postman y tiene preparada las llamadas a todos los endpoints desarrollados
 
 
 ## Ejecutando las pruebas ⚙
-_El proyecto cuenta con una serie de tests unitarios, , para llevarlos a cabo se debe ejecutar el siguiente comando_
+_El proyecto cuenta con una serie de tests unitarios, para llevarlos a cabo se debe ejecutar el siguiente comando_
 * Primero debemos entrar a la shell del contenedor ```mydockerapp``` para ello ejecutamos el siguiente comando
 ```
 docker exec -it mydockerapp /bin/sh
@@ -82,7 +82,7 @@ docker exec -it mydockerapp /bin/sh
 ```
 cd app
 ```
-* y dentro de esta carpeta ejecutamos lo suigiente para correr los test
+* dentro de esta carpeta ejecutamos lo suigiente para correr los test
 ```
 python -m unittest test
 ```
@@ -97,7 +97,7 @@ python -m unittest test
 
 
 ## Autores ✒️
-* [Francisca Osores](https://www.linkedin.com/in/francisca-osores-ortiz-152347149/) - Desarrollo completo de la aplicacion
+* [Francisca Osores](https://www.linkedin.com/in/francisca-osores-ortiz-152347149/) - Desarrollo completo de la aplicación
 * Ante cualquier duda o comentario escribir a fmosoresortiz@gmail.com
 
 
