@@ -1,0 +1,393 @@
+{
+	"info": {
+		"_postman_id": "0d0a39e9-a891-444f-a828-baf38e46ec44",
+		"name": "Kuantas Technical Test API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25470347"
+	},
+	"item": [
+		{
+			"name": "Institution",
+			"item": [
+				{
+					"name": "GET Institutions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:56733/institutions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "56733",
+							"path": [
+								"institutions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST institutions",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "New institution",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Description Description uwu",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "Av siempre viva 742",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:56733/institutions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "56733",
+							"path": [
+								"institutions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DETAIL institution",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:56733/institutions/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "56733",
+							"path": [
+								"institutions",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT Institution",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "new name omg",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "another description",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "hulo",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:56733/institutions/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "56733",
+							"path": [
+								"institutions",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE institution",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:56733/institutions/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "56733",
+							"path": [
+								"institutions",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET google maps url",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:56733/institutions/address",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "56733",
+							"path": [
+								"institutions",
+								"address"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "GET users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:56733/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "56733",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "first_name",
+									"value": "fran",
+									"type": "text"
+								},
+								{
+									"key": "lastnames",
+									"value": "osores",
+									"type": "text"
+								},
+								{
+									"key": "rut",
+									"value": "186219953",
+									"type": "text"
+								},
+								{
+									"key": "birth_date",
+									"value": "10/29/1994",
+									"type": "text"
+								},
+								{
+									"key": "age",
+									"value": "28",
+									"type": "text"
+								},
+								{
+									"key": "position",
+									"value": "Developer",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:56733/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "56733",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DETAIL user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:56733/users/:rut",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "56733",
+							"path": [
+								"users",
+								":rut"
+							],
+							"variable": [
+								{
+									"key": "rut",
+									"value": "186219953"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Projects",
+			"item": [
+				{
+					"name": "GET projects",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:56733/projects",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "56733",
+							"path": [
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST project",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "another project",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "more awesome description",
+									"type": "text"
+								},
+								{
+									"key": "start_date",
+									"value": "4/1/2023",
+									"type": "text"
+								},
+								{
+									"key": "end_date",
+									"value": "12/3/2030",
+									"type": "text"
+								},
+								{
+									"key": "responsible",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "institution_id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:56733/projects",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "56733",
+							"path": [
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET days left",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:56733/projects/days_left",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "56733",
+							"path": [
+								"projects",
+								"days_left"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
