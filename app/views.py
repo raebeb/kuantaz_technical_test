@@ -61,7 +61,6 @@ def institution(id: int) -> json_response:
     institution = Institution.query.get(id)
     projects = Project.query.filter_by(institution_id=id).all()
 
-    print(f'INSTITUTION->{institution}')
 
     if request.method == 'GET':
         if institution:
@@ -77,12 +76,10 @@ def institution(id: int) -> json_response:
 
     elif request.method == 'PUT':
         if institution:
-            print('PUT')
             print(request.json)
             name = request.form('name', institution.name)
             description = request.form('description', institution.description)
             address = request.form('address', institution.address)
-            print(f'NAME->{name} DESCRIPTION->{description}')
             institution.name = name
             institution.description = description
             institution.address = address
@@ -93,7 +90,6 @@ def institution(id: int) -> json_response:
                 'description': institution.description,
             })
         else:
-            print('PUT ELSE')
             return json_response(description='Institution not found')
 
     elif request.method == 'DELETE':
